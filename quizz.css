@@ -49,4 +49,5 @@ body {
 
 .ans:hover {
     background-color: lightgray;
+    cursor: pointer;
 }
