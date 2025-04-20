@@ -12,3 +12,29 @@ body {
     height: 100%;
     width: 100%;
 }
+
+#gameStarter {
+    position:absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#cuestionario {
+    display: none;
+}
+
+#respuestas {
+    display: grid;
+    grid-template-columns: 45% 45%;
+    border: 4px solid black;
+    justify-content: center;
+    text-align: center;
+}
+
+.ans {
+    border: 1px solid black;
+}
+
+.ans:hover {
+    background-color: lightgray;
+}

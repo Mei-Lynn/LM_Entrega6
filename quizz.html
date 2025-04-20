@@ -1,21 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quizz</title>
     <link rel="stylesheet" href="quizz.css">
 </head>
+
 <body>
+    <div id="gameStarter">
+        <button onclick="gameStart()">Inicia el juego</button>
+    </div>
+
+
     <div id="cuestionario">
         <div id="pregunta">
-
+            <p id="q">Pregunta Placeholder</p>
         </div>
-        <div id="resupuestas">
-            <p id="ans">Idk</p>
-            <p id="ans">Idk</p>
-            <p id="ans">Idk</p>
+        <div id="respuestas">
+            <p class="ans">Respuesta placeholder</p>
+            <p class="ans">Respuesta placeholder</p>
+            <p class="ans">Respuesta placeholder</p>
+            <p class="ans">Respuesta placeholder</p>
         </div>
     </div>
+
+
+    <script>
+        preguntas = [
+            {
+                q:"Pregunta 1",
+                a:[
+                    "Respuesta 1",
+                    "Respuesta 2",
+                    "Respuesta 3",
+                    "Respuesta 4"
+                ]
+            },
+            {
+                q:"Pregunta 2",
+                a:[
+                    "Respuesta 1",
+                    "Respuesta 2",
+                    "Respuesta 3",
+                    "Respuesta 4"
+                ]
+            }
+        ]
+
+        function gameStart(){
+            document.getElementById("gameStarter").style.display="none" //Esconder el boton
+            nextQuestion() //Pon la primera pregunta
+            showQuestions() //Muestra las preguntas
+            
+
+        }
+
+        function showQuestions(){
+            document.getElementById("cuestionario").style.display="block"
+        }
+
+        function hideQuestions(){
+            document.getElementById("cuestionario").style.display="none"
+        }
+
+        function nextQuestion() {
+            qTarget = document.getElementById("pregunta")
+            aTarget = document.getElementById("respuestas")
+
+            qTarget.innerHTML = preguntas[currQuestion].q
+            aTarget.innerHTML = 
+            "<p class='ans'> "+preguntas[currQuestion].a[0]+" </p>" +
+            "<p class='ans'> "+preguntas[currQuestion].a[1]+" </p>" +
+            "<p class='ans'> "+preguntas[currQuestion].a[2]+" </p>" +
+            "<p class='ans'> "+preguntas[currQuestion].a[3]+" </p>" ;
+
+            currQuestion++
+            console.log("Se ha cargado la pregunta " +currQuestion)
+        }
+
+        function contarSegundo () {
+
+        }
+
+        //_____________Variables______________
+            currQuestion = 0
+
+        //____________________________________
+        
+    </script>
 </body>
+
 </html>
