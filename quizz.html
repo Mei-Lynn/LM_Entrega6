@@ -13,6 +13,9 @@
         <button onclick="gameStart()">Inicia el juego</button>
     </div>
 
+    <div id="temporizador"> <!--Separar en 2 parrafos para que no se mueva el tiempo-->
+        <p>Tiempo restante: 0 segundos</p>
+    </div>
 
     <div id="cuestionario">
         <div id="pregunta">
@@ -28,6 +31,8 @@
 
 
     <script>
+        //Array de preguntas.
+        //Formato: [{q: "Pregunta", a: ["r1","r2","r3","r4"]}, ...]
         preguntas = [
             {
                 q:"Pregunta 1",
@@ -54,7 +59,9 @@
             nextQuestion() //Pon la primera pregunta
             showQuestions() //Muestra las preguntas
             
-
+            startTimer() //Inicia el temporizador
+            
+            
         }
 
         function showQuestions(){
@@ -80,13 +87,26 @@
             console.log("Se ha cargado la pregunta " +currQuestion)
         }
 
-        function contarSegundo () {
+        function startTimer() {
+            contarSegundo() //Inicia el temporizador
+            timer = setInterval(contarSegundo, 1000); //Cuenta cada segundo
+        }
 
+        function contarSegundo() {
+            target = document.getElementById("temporizador");
+            target.innerHTML = "<p>Tiempo restante: "+timeLeft+" segundos</p>"
+            timeLeft--
+
+            if (timeLeft < 0) { //Detiene el temporizador si llega a 0
+                clearInterval(timer)
+                setTimeout(hideQuestions, 500) //Esconde las preguntas con un poco de tiempo de gracia
+                timeLeft = 5 //Reinicia el tiempo restante
+            }
         }
 
         //_____________Variables______________
             currQuestion = 0
-
+            timeLeft = 5
         //____________________________________
         
     </script>
