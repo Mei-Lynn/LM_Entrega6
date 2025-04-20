@@ -32,7 +32,8 @@
 
     <script>
         //Array de preguntas.
-        //Formato: [{q: "Pregunta", a: ["r1","r2","r3","r4"]}, ...]
+        //Formato: [{q: String, a: String Array[4], c: int (1-4)}, ...]
+        //q -> Pregunta   a -> Respuestas posibles  c -> indice de la respuesta correcta 
         preguntas = [
             {
                 q:"Pregunta 1",
@@ -41,7 +42,8 @@
                     "Respuesta 2",
                     "Respuesta 3",
                     "Respuesta 4"
-                ]
+                ],
+                c:1
             },
             {
                 q:"Pregunta 2",
@@ -50,7 +52,8 @@
                     "Respuesta 2",
                     "Respuesta 3",
                     "Respuesta 4"
-                ]
+                ],
+                c:2
             }
         ]
 
@@ -78,24 +81,24 @@
 
             qTarget.innerHTML = preguntas[currQuestion].q
             aTarget.innerHTML = 
-            "<p class='ans'> "+preguntas[currQuestion].a[0]+" </p>" +
-            "<p class='ans'> "+preguntas[currQuestion].a[1]+" </p>" +
-            "<p class='ans'> "+preguntas[currQuestion].a[2]+" </p>" +
-            "<p class='ans'> "+preguntas[currQuestion].a[3]+" </p>" ;
+            "<p class='ans' onclick='checkAns(1)'> "+preguntas[currQuestion].a[0]+" </p>" +
+            "<p class='ans' onclick='checkAns(2)'> "+preguntas[currQuestion].a[1]+" </p>" +
+            "<p class='ans' onclick='checkAns(3)'> "+preguntas[currQuestion].a[2]+" </p>" +
+            "<p class='ans' onclick='checkAns(4)'> "+preguntas[currQuestion].a[3]+" </p>" ;
 
-            currQuestion++
             console.log("Se ha cargado la pregunta " +currQuestion)
         }
 
         function startTimer() {
             contarSegundo() //Inicia el temporizador
-            timer = setInterval(contarSegundo, 1000); //Cuenta cada segundo
+            timer = setInterval(contarSegundo, 10); //Cuenta cada centesima de segundo
         }
 
         function contarSegundo() {
             target = document.getElementById("temporizador");
             target.innerHTML = "<p>Tiempo restante: "+timeLeft+" segundos</p>"
-            timeLeft--
+            timeLeft = (timeLeft - 0.01).toFixed(2) //Resta la centesima de segundo al temporizador y redondea para evitar errores
+            //Fuente: https://codedamn.com/news/javascript/javascript-round-a-number-to-2-decimal-places-with-examples
 
             if (timeLeft < 0) { //Detiene el temporizador si llega a 0
                 clearInterval(timer)
@@ -104,9 +107,19 @@
             }
         }
 
+        function checkAns(input) {
+            if (input == preguntas[currQuestion].c) {
+                console.log("Respuesta correcta")
+                puntuacionLograda = timeLeft * 1000
+            } else {
+                puntuacionLograda = 0
+            }
+        }
+
         //_____________Variables______________
             currQuestion = 0
-            timeLeft = 5
+            timeLeft = 5.0
+            puntuacionTotal = 0
         //____________________________________
         
     </script>
