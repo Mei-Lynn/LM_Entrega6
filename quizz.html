@@ -126,7 +126,6 @@
         function gameStart() {
             document.getElementById("gameStarter").style.display = "none"
             document.getElementById("next").style.display = "none" //Esconder los botones
-            console.log("Pregunta: " + currQuestion + " | Tope: " + preguntas.length)
             if (currQuestion < preguntas.length - 1) {
                 //Secuencia de metodos para el funcionamiento de las preguntas
                 nextQuestion() //Pon la siguiente pregunta
