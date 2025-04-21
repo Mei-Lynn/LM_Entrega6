@@ -1,14 +1,94 @@
-*{
-    padding: 0;
-    margin: 0;
-}
-
-html{
-    height: 100%;
-    width: 100%;
-}
-
 body {
-    height: 100%;
-    width: 100%;
+    text-align: center;
+    background-color: #eef6f7;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+#info {
+    margin-bottom: 10px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+#juego {
+    position: relative;
+    width: 90vw;
+    max-width: 400px;
+    height: 400px;
+    margin: auto;
+    border: 2px solid #333;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+
+.tesoro,
+.trampa,
+.bonus {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+}
+
+
+.tesoro {
+    background-color: #759138;
+    border: 2px solid #586b30;
+}
+
+
+.trampa {
+    background-color: #ff6666;
+    border: 2px solid #470707;
+}
+
+
+.bonus {
+    background-color: orange;
+    border: 2px solid rgb(169, 114, 37);
+}
+
+
+
+#vidas {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+
+#mensaje-final {
+    font-size: 24px;
+    margin-top: 20px;
+    color: #004d00;
+}
+
+#btnReiniciar {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: none;
+}
+
+#btnReiniciar:hover {
+    background-color: #0056b3;
 }
