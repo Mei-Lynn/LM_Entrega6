@@ -45,6 +45,8 @@
     <div id="endScreen">
         <p class="sameLine">puntuacion final: </p>
         <p class="sameLine" id="mf"></p>
+        <p id="aciertos"></p>
+        <p id="fallos"></p>
     </div>
 
     <script>
@@ -53,6 +55,8 @@
         timeLeft = 10.0
         puntuacionTotal = 0
         inTime = false
+        aciertos = 0
+        fallos = 0
         //____________________________________
 
         //Array de preguntas.
@@ -193,10 +197,11 @@
             if (input == preguntas[currQuestion].c && inTime) {
                 console.log("Respuesta correcta")
                 puntuacionTotal += timeLeft * 1000
-
+                aciertos++
             } else if (inTime) { //Cazar una respuesta incorrecta
                 console.log("Respuesta incorrecta")
                 document.getElementById("a" + input).style.backgroundColor = "red" //Cambiar el color de la respuesta incorrecta
+                fallos++
             } else { //El usuario se ha quedado sin tiempo
                 console.log("Fin del tiempo")
             }
@@ -210,13 +215,13 @@
             document.getElementById("next").style.display = "block" //Muestra el boton para continuar
         }
 
-        function gameEnd() {
+        function gameEnd() { //Montaje de la pantalla final
             document.getElementById("masterDiv").style.display = "none"
             document.getElementById("endScreen").style.display = "block"
             document.getElementById("mf").innerHTML = puntuacionTotal
+            document.getElementById("aciertos").innerHTML = "Aciertos: "+ aciertos
+            document.getElementById("fallos").innerHTML = "Fallos: "+ fallos
         }
-
-
     </script>
 </body>
 
