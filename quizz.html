@@ -14,10 +14,13 @@
             <button onclick="gameStart()">Inicia el juego</button>
         </div>
 
-        <div id="temporizador">
-            <p class="sameLine">Tiempo restante: </p>
-            <p class="sameLine" id="tiempo">0.00</p>
-            <p class="sameLine"> segundos</p>
+        <div id="stats-container">
+            <div id="score-area">
+                Puntuación: <span id="marcador">0</span>
+            </div>
+            <div id="timer-area">
+                Tiempo: <span id="tiempo">60</span>s
+            </div>
         </div>
 
         <div id="cuestionario">
@@ -29,11 +32,6 @@
                 <p class="ans">Respuesta placeholder</p>
                 <p class="ans">Respuesta placeholder</p>
                 <p class="ans">Respuesta placeholder</p>
-            </div>
-
-            <div id="puntuacion">
-                <p class="sameLine">Puntuación: </p>
-                <p class="sameLine" id="marcador">0</p>
             </div>
 
             <div id="next">
@@ -142,10 +140,12 @@
 
         function showQuestions() {
             document.getElementById("cuestionario").style.display = "block"
+            document.getElementById("stats-container").style.display = "flex"
         }
 
         function hideQuestions() {
             document.getElementById("cuestionario").style.display = "none"
+            document.getElementById("stats-container").style.display = "none"
         }
 
         function nextQuestion() {
@@ -219,8 +219,8 @@
             document.getElementById("masterDiv").style.display = "none"
             document.getElementById("endScreen").style.display = "block"
             document.getElementById("mf").innerHTML = puntuacionTotal
-            document.getElementById("aciertos").innerHTML = "Aciertos: "+ aciertos
-            document.getElementById("fallos").innerHTML = "Fallos: "+ fallos
+            document.getElementById("aciertos").innerHTML = "Aciertos: " + aciertos
+            document.getElementById("fallos").innerHTML = "Fallos: " + fallos
         }
     </script>
 </body>
