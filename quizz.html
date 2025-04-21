@@ -9,119 +9,214 @@
 </head>
 
 <body>
-    <div id="gameStarter">
-        <button onclick="gameStart()">Inicia el juego</button>
-    </div>
-
-    <div id="temporizador"> <!--Separar en 2 parrafos para que no se mueva el tiempo-->
-        <p>Tiempo restante: 0 segundos</p>
-    </div>
-
-    <div id="cuestionario">
-        <div id="pregunta">
-            <p id="q">Pregunta Placeholder</p>
+    <div id="masterDiv">
+        <div id="gameStarter">
+            <button onclick="gameStart()">Inicia el juego</button>
         </div>
-        <div id="respuestas">
-            <p class="ans">Respuesta placeholder</p>
-            <p class="ans">Respuesta placeholder</p>
-            <p class="ans">Respuesta placeholder</p>
-            <p class="ans">Respuesta placeholder</p>
+
+        <div id="temporizador">
+            <p class="sameLine">Tiempo restante: </p>
+            <p class="sameLine" id="tiempo">0.00</p>
+            <p class="sameLine"> segundos</p>
+        </div>
+
+        <div id="cuestionario">
+            <div id="pregunta">
+                <p id="q">Pregunta Placeholder</p>
+            </div>
+            <div id="respuestas">
+                <p class="ans">Respuesta placeholder</p>
+                <p class="ans">Respuesta placeholder</p>
+                <p class="ans">Respuesta placeholder</p>
+                <p class="ans">Respuesta placeholder</p>
+            </div>
+
+            <div id="puntuacion">
+                <p class="sameLine">Puntuación: </p>
+                <p class="sameLine" id="marcador">0</p>
+            </div>
+
+            <div id="next">
+                <button onclick="gameStart()">Siguiente</button>
+            </div>
         </div>
     </div>
 
+    <div id="endScreen">
+        <p class="sameLine">puntuacion final: </p>
+        <p class="sameLine" id="mf"></p>
+    </div>
 
     <script>
+        //_____________Variables______________
+        currQuestion = -1 //Por como uso el metodo para pasar preguntas, tiene que empezar a -1
+        timeLeft = 10.0
+        puntuacionTotal = 0
+        inTime = false
+        //____________________________________
+
         //Array de preguntas.
         //Formato: [{q: String, a: String Array[4], c: int (1-4)}, ...]
         //q -> Pregunta   a -> Respuestas posibles  c -> indice de la respuesta correcta 
         preguntas = [
             {
-                q:"Pregunta 1",
-                a:[
-                    "Respuesta 1",
-                    "Respuesta 2",
-                    "Respuesta 3",
-                    "Respuesta 4"
+                q: "¿Cómo se declara un array en JavaScript?",
+                a: [
+                    "[1,2,3,4]",
+                    "Array(1,2,3,4)",
+                    "{1,2,3,4}",
+                    "(1,2,3,4)"
                 ],
-                c:1
+                c: 1
             },
             {
-                q:"Pregunta 2",
-                a:[
-                    "Respuesta 1",
-                    "Respuesta 2",
-                    "Respuesta 3",
-                    "Respuesta 4"
+                q: "¿Cuál de estos métodos convierte un string en un número entero?",
+                a: [
+                    "parseFloat()",
+                    "value()",
+                    "parseInt()",
+                    "Number()"
                 ],
-                c:2
+                c: 3
+            },
+            {
+                q: "¿Cómo se declara una función en JavaScript?",
+                a: [
+                    "function:miFuncion()",
+                    "let miFuncion = function[]",
+                    "function miFuncion()",
+                    "miFuncion := function()"
+                ],
+                c: 3
+            },
+            {
+                q: "¿Que hay que usar para realizar una operación escrita en un String?",
+                a: [
+                    "calculate()",
+                    "parseInt()",
+                    "eval()",
+                    "operate()"
+                ],
+                c: 3
+            },
+            {
+                q: "¿Qué operador se usa para comparar tanto valor como tipo?",
+                a: [
+                    "==",
+                    "===",
+                    "!=",
+                    "=>"
+                ],
+                c: 2
+            },
+            {
+                q: "¿Cuál es la salida de '2' + 2 en JavaScript?",
+                a: [
+                    "4",
+                    "22",
+                    "NaN",
+                    "Error"
+                ],
+                c: 2
             }
-        ]
+        ];
 
-        function gameStart(){
-            document.getElementById("gameStarter").style.display="none" //Esconder el boton
-            nextQuestion() //Pon la primera pregunta
-            showQuestions() //Muestra las preguntas
-            
-            startTimer() //Inicia el temporizador
-            
-            
+        function gameStart() {
+            document.getElementById("gameStarter").style.display = "none"
+            document.getElementById("next").style.display = "none" //Esconder los botones
+            console.log("Pregunta: " + currQuestion + " | Tope: " + preguntas.length)
+            if (currQuestion < preguntas.length - 1) {
+                //Secuencia de metodos para el funcionamiento de las preguntas
+                nextQuestion() //Pon la siguiente pregunta
+                showQuestions() //Muestra las preguntas
+                startTimer() //Inicia el temporizador
+            }
+            else {
+                gameEnd()
+            }
         }
 
-        function showQuestions(){
-            document.getElementById("cuestionario").style.display="block"
+        function showQuestions() {
+            document.getElementById("cuestionario").style.display = "block"
         }
 
-        function hideQuestions(){
-            document.getElementById("cuestionario").style.display="none"
+        function hideQuestions() {
+            document.getElementById("cuestionario").style.display = "none"
         }
 
         function nextQuestion() {
+            currQuestion++//Preparamos la siguente pregunta
+
             qTarget = document.getElementById("pregunta")
             aTarget = document.getElementById("respuestas")
 
             qTarget.innerHTML = preguntas[currQuestion].q
-            aTarget.innerHTML = 
-            "<p class='ans' onclick='checkAns(1)'> "+preguntas[currQuestion].a[0]+" </p>" +
-            "<p class='ans' onclick='checkAns(2)'> "+preguntas[currQuestion].a[1]+" </p>" +
-            "<p class='ans' onclick='checkAns(3)'> "+preguntas[currQuestion].a[2]+" </p>" +
-            "<p class='ans' onclick='checkAns(4)'> "+preguntas[currQuestion].a[3]+" </p>" ;
+            aTarget.innerHTML =
+                "<p class='ans' id='a1' onclick='checkAns(1)'> " + preguntas[currQuestion].a[0] + " </p>" +
+                "<p class='ans' id='a2' onclick='checkAns(2)'> " + preguntas[currQuestion].a[1] + " </p>" +
+                "<p class='ans' id='a3' onclick='checkAns(3)'> " + preguntas[currQuestion].a[2] + " </p>" +
+                "<p class='ans' id='a4' onclick='checkAns(4)'> " + preguntas[currQuestion].a[3] + " </p>";
 
-            console.log("Se ha cargado la pregunta " +currQuestion)
+            console.log("Se ha cargado la pregunta " + currQuestion)
         }
 
         function startTimer() {
+            inTime = true //Habilita las respuestas
             contarSegundo() //Inicia el temporizador
             timer = setInterval(contarSegundo, 10); //Cuenta cada centesima de segundo
         }
 
+        function stopTimer() {
+            clearInterval(timer) //detiene la sucesión de llamadas
+            setTimeout(saltarPregunta(), 500) //Neutraliza los botones de las respuestas
+            timeLeft = 10.0 //Reinicia el tiempo restante
+        }
+
         function contarSegundo() {
-            target = document.getElementById("temporizador");
-            target.innerHTML = "<p>Tiempo restante: "+timeLeft+" segundos</p>"
-            timeLeft = (timeLeft - 0.01).toFixed(2) //Resta la centesima de segundo al temporizador y redondea para evitar errores
-            //Fuente: https://codedamn.com/news/javascript/javascript-round-a-number-to-2-decimal-places-with-examples
+            target = document.getElementById("tiempo");
+            target.innerHTML = timeLeft
+            timeLeft = (timeLeft - 0.01).toFixed(2) //Resta la centesima de segundo al temporizador y redondea para evitar errores de floats
+            //Fuente de funcion de redondeo: https://codedamn.com/news/javascript/javascript-round-a-number-to-2-decimal-places-with-examples
 
             if (timeLeft < 0) { //Detiene el temporizador si llega a 0
-                clearInterval(timer)
-                setTimeout(hideQuestions, 500) //Esconde las preguntas con un poco de tiempo de gracia
-                timeLeft = 5 //Reinicia el tiempo restante
+                stopTimer()
+                showPuntuacion()
             }
+        }
+
+        function saltarPregunta() {
+            inTime = false
         }
 
         function checkAns(input) {
-            if (input == preguntas[currQuestion].c) {
+            //Si la entrada coincide con el valor guardado en el objeto, es correcto
+            if (input == preguntas[currQuestion].c && inTime) {
                 console.log("Respuesta correcta")
-                puntuacionLograda = timeLeft * 1000
-            } else {
-                puntuacionLograda = 0
+                puntuacionTotal += timeLeft * 1000
+
+            } else if (inTime) { //Cazar una respuesta incorrecta
+                console.log("Respuesta incorrecta")
+                document.getElementById("a" + input).style.backgroundColor = "red" //Cambiar el color de la respuesta incorrecta
+            } else { //El usuario se ha quedado sin tiempo
+                console.log("Fin del tiempo")
             }
+            stopTimer()
+            showPuntuacion()
         }
 
-        //_____________Variables______________
-            currQuestion = 0
-            timeLeft = 5.0
-            puntuacionTotal = 0
-        //____________________________________
-        
+        function showPuntuacion() {
+            document.getElementById("marcador").innerHTML = puntuacionTotal //Ajusta el marcador visible
+            document.getElementById("a" + preguntas[currQuestion].c).style.backgroundColor = "green"
+            document.getElementById("next").style.display = "block" //Muestra el boton para continuar
+        }
+
+        function gameEnd() {
+            document.getElementById("masterDiv").style.display = "none"
+            document.getElementById("endScreen").style.display = "block"
+            document.getElementById("mf").innerHTML = puntuacionTotal
+        }
+
+
     </script>
 </body>
 
