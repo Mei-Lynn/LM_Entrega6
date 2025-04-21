@@ -1,12 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="dragNdrop.css">
+  <meta charset="UTF-8">
+  <title>Drag & Drop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dragNdrop.css">
 </head>
 <body>
-    
+
+  <div class="game-container">
+
+    <h1>Arrastra cada figura a su contenedor</h1>
+
+    <div class="stats-container">
+        <div id="score-area">
+          Puntuación: <span id="score-value">0</span>
+        </div>
+        <div id="timer-area">
+            Tiempo: <span id="timer-value">60</span>s
+        </div>
+    </div>
+
+    <div id="shapes-origin" class="shapes-container">
+      <div id="circle" class="shape circle" draggable="true"></div>
+      <div id="square" class="shape square" draggable="true"></div>
+      <div id="star" class="shape star" draggable="true"></div>
+      <div id="triangle" class="shape triangle" draggable="true"></div>
+      <div id="hexagon" class="shape hexagon" draggable="true"></div>
+    </div>
+
+    <div class="containers drop-area">
+      <div id="circle-drop" class="dropzone circle-zone" data-shape="circle"></div>
+      <div id="square-drop" class="dropzone square-zone" data-shape="square"></div>
+      <div id="star-drop" class="dropzone star-zone" data-shape="star"></div>
+      <div id="triangle-drop" class="dropzone triangle-zone" data-shape="triangle"></div>
+      <div id="hexagon-drop" class="dropzone hexagon-zone" data-shape="hexagon"></div>
+    </div>
+
+    <div id="message-area" class="message"></div>
+    <button id="reset-button" class="button-reset">Reiniciar Juego</button>
+
+  </div>
+  <script src="dragNdrop.js"></script>
 </body>
 </html>
