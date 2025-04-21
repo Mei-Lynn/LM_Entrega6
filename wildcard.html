@@ -1,12 +1,169 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Caza del Tesoro</title>
     <link rel="stylesheet" href="wildcard.css">
 </head>
+
 <body>
-    
+    <h1>🏴‍☠️ Caza del Tesoro</h1>
+
+    <div id="info">
+        <span id="puntos">Puntos: 0</span>
+        <span id="tiempo">⏱ Tiempo: 30s</span>
+        <div id="vidas">❤️❤️❤️</div>
+    </div>
+
+    <div id="juego"></div>
+
+    <div id="mensaje-final"></div>
+    <button id="btnReiniciar" onclick="iniciarJuego()">Reiniciar Juego</button>
+
+    <script>
+        var puntos = 0;
+        var tiempo = 30;
+        var juegoSigue = true;
+        var tiempoEntreEmojis = 1500;
+        var intervaloParaEmojis = null;
+        var vidasRestantes = 3;
+
+        function iniciarJuego() {
+
+            puntos = 0;
+            tiempo = 30;
+            juegoSigue = true;
+            tiempoEntreEmojis = 1500;
+            vidasRestantes = 3;
+
+            document.getElementById("juego").innerHTML = "";
+            document.getElementById("puntos").textContent = "Puntos: 0";
+            document.getElementById("tiempo").textContent = "⏱ Tiempo: 30s";
+            document.getElementById("mensaje-final").textContent = "";
+            document.getElementById("vidas").textContent = "❤️❤️❤️";
+
+            clearInterval(intervaloParaEmojis);
+
+            comenzarCuentaAtras();
+            comenzarAparicionEmojis();
+        }
+
+
+        function comenzarCuentaAtras() {
+            var reloj = setInterval(function () {
+                tiempo--;
+                document.getElementById("tiempo").textContent = "⏱ Tiempo: " + tiempo + "s";
+
+                if (tiempo <= 0) {
+                    clearInterval(reloj);
+                    terminarJuego("🎉 ¡Tiempo terminado! Puntos: " + puntos);
+                }
+            }, 1000);
+        }
+
+        function comenzarAparicionEmojis() {
+            intervaloParaEmojis = setInterval(function () {
+                if (!juegoSigue) return;
+
+                crearEmoji();
+
+                if (tiempoEntreEmojis > 400) {
+                    clearInterval(intervaloParaEmojis);
+                    tiempoEntreEmojis -= 100;
+                    comenzarAparicionEmojis();
+                }
+            }, tiempoEntreEmojis);
+        }
+
+        function crearEmoji() {
+            let numeroRandom = Math.random();
+            let tipo = "";
+
+            if (numeroRandom < 0.7) {
+                tipo = "tesoro";
+            } else if (numeroRandom < 0.95) {
+                tipo = "trampa";
+            } else {
+                tipo = "bonus";
+            }
+
+            let emoji = document.createElement("div");
+            emoji.className = tipo;
+
+            if (tipo === "tesoro") {
+                emoji.textContent = "💰";
+            } else if (tipo === "trampa") {
+                emoji.textContent = "💀";
+            } else {
+                emoji.textContent = "⭐";
+            }
+
+            let zonaJuego = document.getElementById("juego");
+            let posX = Math.random() * (zonaJuego.clientWidth - 50);
+            let posY = Math.random() * (zonaJuego.clientHeight - 50);
+
+            emoji.style.left = posX + "px";
+            emoji.style.top = posY + "px";
+
+            let yaFueClick = false;
+
+            emoji.addEventListener("click", function () {
+                if (!juegoSigue || yaFueClick) return;
+                yaFueClick = true;
+
+                if (tipo === "tesoro") {
+                    puntos++;
+                } else if (tipo === "trampa") {
+                    vidasRestantes--;
+                    actualizarVidas();
+
+                    if (vidasRestantes <= 0) {
+                        terminarJuego("💀 ¡Perdiste! Te quedaste sin corazones.");
+                    } else {
+                        puntos--;
+                        if (puntos < 0) puntos = 0;
+                    }
+                } else if (tipo === "bonus") {
+                    tiempo += 5;
+                    document.getElementById("tiempo").textContent = "⏱ Tiempo: " + tiempo + "s";
+                }
+
+                document.getElementById("puntos").textContent = "Puntos: " + puntos;
+
+                if (zonaJuego.contains(emoji)) {
+                    zonaJuego.removeChild(emoji);
+                }
+            });
+
+            zonaJuego.appendChild(emoji);
+
+            setTimeout(function () {
+                if (!yaFueClick && zonaJuego.contains(emoji)) {
+                    zonaJuego.removeChild(emoji);
+                }
+            }, 3000);
+        }
+
+
+
+        function actualizarVidas() {
+            var corazones = "❤️".repeat(vidasRestantes);
+            document.getElementById("vidas").textContent = corazones;
+        }
+
+        function terminarJuego(mensaje) {
+            juegoSigue = false;
+            clearInterval(intervaloParaEmojis);
+            document.getElementById("mensaje-final").textContent = mensaje;
+            document.getElementById("btnReiniciar").style.display = "inline-block";
+        }
+
+
+        iniciarJuego();
+    </script>
+
 </body>
+
 </html>
